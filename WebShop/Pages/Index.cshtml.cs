@@ -5,21 +5,63 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using ServiceLayer.ProductService;
+using ServiceLayer.ProductService.Abstract;
+using ServiceLayer.ProductService.Dto;
+using ServiceLayer.ProductService.QueryObjects;
 
 namespace WebShop.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        public List<ProductListDto> Products { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger)
+        private readonly ILogger<IndexModel> _logger;
+        private readonly IListProductService _listProductService;
+
+        public IndexModel(ILogger<IndexModel> logger, IListProductService listProductService)
         {
             _logger = logger;
+            _listProductService = listProductService;
+
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
 
+                // Tuples for DropDownControl i webclient
+                //var blogFilterDropdownService = new BlogFilterDropdownService(context);
+                //var dropdownItems = blogFilterDropdownService.GetFilterDropDownValues(BlogsFilterBy.ByOwner).ToList();
+
+                //foreach (var item in dropdownItems)
+                //{
+                //    Console.WriteLine("{0} - {1}", item.Value, item.Text);
+                //}
+
+
+
+
+                //var blogService = new ListProductService(context);
+                var blogs = _listProductService.SortFilterPage(new SortFilterPageOptions
+                {
+                    OrderByOptions = OrderByOptions.ByBrand,
+                    //FilterBy = ProductsFilterBy.ByBrand,
+                    //FilterValue = "Mercedes",
+
+                    PageNum = 1,
+                    PageSize = 5
+                }).ToList();
+            Products = blogs;
+            return Page();
+                //foreach (ProductListDto blog in blogs)
+                //{
+                //    Console.WriteLine("\nBrand: {0} \nModel: {1} \nPhoto: {2} \nPrice {3}",
+                //        blog.BrandName,
+                //        blog.ModelName,
+                //        blog.PhotoPath,
+                //        blog.Price
+                //        );
+                //}
         }
     }
 }

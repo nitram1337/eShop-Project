@@ -8,9 +8,9 @@ namespace DataLayer
 {
     public class EshopContext : DbContext
     {
-        
-        public EshopContext() 
-        { }
+        // Brugt til, så ConsoleApp kunne kører
+        //public EshopContext() 
+        //{ }
 
         public EshopContext(DbContextOptions<EshopContext> options)
         : base(options)

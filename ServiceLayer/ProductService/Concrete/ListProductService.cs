@@ -1,6 +1,7 @@
 ﻿using DataLayer;
 using DataLayer.QueryObjects;
 using Microsoft.EntityFrameworkCore;
+using ServiceLayer.ProductService.Abstract;
 using ServiceLayer.ProductService.Dto;
 using ServiceLayer.ProductService.QueryObjects;
 using System;
@@ -10,7 +11,7 @@ using System.Text;
 
 namespace ServiceLayer.ProductService.Concrete
 {
-    public class ListProductService
+    public class ListProductService : IListProductService
     {
         private readonly EshopContext _context;
 
