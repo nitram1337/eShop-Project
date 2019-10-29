@@ -31,6 +31,11 @@ namespace WebShop
 
             services.AddDbContext<EshopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("WebShop")));
             services.AddRazorPages();
+
+            services.AddMiniProfiler(options =>
+            {
+                options.TrackConnectionOpenClose = true;
+            }).AddEntityFramework();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +44,7 @@ namespace WebShop
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMiniProfiler();
             }
             else
             {

@@ -31,5 +31,15 @@ namespace ServiceLayer.ProductService.Concrete
             options.SetupRestOfDto(productsQuery);                             // Added
             return productsQuery.Page(options.PageNum - 1, options.PageSize);  // Added
         }
+        public ProductListDto ViewProductById(int id)
+        {
+            var product = _context.Cars
+                .AsNoTracking()
+                .Where(a => a.CarId == id)
+                .MapProductToDto()
+                .FirstOrDefault();
+
+            return product;
+        }
     }
 }

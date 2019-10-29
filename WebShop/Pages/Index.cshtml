@@ -7,18 +7,4 @@
     <div class="text-center">
         <h1 class="display-4">Welcome</h1>
         <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-
-        @foreach (var item in Model.Products)
-        {
-            <p>Brand: @item.BrandName @item.PhotoPath</p>
-            if (item.PhotoPath == null)
-            {
-                <img src="~/img/notfound.png" asp-append-version="true">
-            }
-            else
-            {
-                <img src="~/img/@{@item.PhotoPath}.jpg" asp-append-version="true">
-            }
-
-        }
     </div>

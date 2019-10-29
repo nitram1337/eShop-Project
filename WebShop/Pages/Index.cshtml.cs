@@ -14,54 +14,8 @@ namespace WebShop.Pages
 {
     public class IndexModel : PageModel
     {
-        public List<ProductListDto> Products { get; set; }
-
-        private readonly ILogger<IndexModel> _logger;
-        private readonly IListProductService _listProductService;
-
-        public IndexModel(ILogger<IndexModel> logger, IListProductService listProductService)
+        public void OnGet()
         {
-            _logger = logger;
-            _listProductService = listProductService;
-
-        }
-
-        public IActionResult OnGet()
-        {
-
-                // Tuples for DropDownControl i webclient
-                //var blogFilterDropdownService = new BlogFilterDropdownService(context);
-                //var dropdownItems = blogFilterDropdownService.GetFilterDropDownValues(BlogsFilterBy.ByOwner).ToList();
-
-                //foreach (var item in dropdownItems)
-                //{
-                //    Console.WriteLine("{0} - {1}", item.Value, item.Text);
-                //}
-
-
-
-
-                //var blogService = new ListProductService(context);
-                var blogs = _listProductService.SortFilterPage(new SortFilterPageOptions
-                {
-                    OrderByOptions = OrderByOptions.ByBrand,
-                    //FilterBy = ProductsFilterBy.ByBrand,
-                    //FilterValue = "Mercedes",
-
-                    PageNum = 1,
-                    PageSize = 5
-                }).ToList();
-            Products = blogs;
-            return Page();
-                //foreach (ProductListDto blog in blogs)
-                //{
-                //    Console.WriteLine("\nBrand: {0} \nModel: {1} \nPhoto: {2} \nPrice {3}",
-                //        blog.BrandName,
-                //        blog.ModelName,
-                //        blog.PhotoPath,
-                //        blog.Price
-                //        );
-                //}
         }
     }
 }

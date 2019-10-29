@@ -9,5 +9,6 @@ namespace ServiceLayer.ProductService.Abstract
     public interface IListProductService
     {
         IQueryable<ProductListDto> SortFilterPage(SortFilterPageOptions options);
+        ProductListDto ViewProductById(int id);
     }
 }

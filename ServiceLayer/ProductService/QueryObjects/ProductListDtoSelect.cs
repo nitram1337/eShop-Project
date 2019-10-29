@@ -13,6 +13,7 @@ namespace ServiceLayer.ProductService.QueryObjects
         {
             return cars.Select(p => new ProductListDto
             {
+                Id = p.CarId,
                 BrandName = p.Brand.BrandName,
                 ModelName = p.ModelName,
                 PhotoPath = p.Photo.PhotoPath,

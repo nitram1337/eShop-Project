@@ -1,0 +1,34 @@
+﻿@page "{productId:int}"
+@model WebShop.Pages.Products.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<br />
+
+
+    <div class="">
+        <div class="card my-4 border-info">
+            @if (Model.Product.PhotoPath == null)
+            {<img class="card-img-top" src="~/img/notfound.png" asp-append-version="true" alt="Card image" style="width:100%"> }
+            else
+            { <img class="card-img-top" src="~/img/@{@Model.Product.PhotoPath}.jpg" asp-append-version="true" alt="Card image" style="width:100%">}
+            <div class="card-body">
+                <h5 class="card-title">@Model.Product.BrandName</h5>
+                <p class="card-text">@Model.Product.ModelName</p>
+                <span>Price:</span><h5><b>@Model.Product.Price</b></h5>
+            </div>
+            <div class="card-footer text-muted">
+
+                <a class="btn btn-info" asp-page="/Products/Details" asp-route-productId="@Model.Product.Id">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Details</span>
+                </a>
+                <a class="btn btn-info" asp-page="./Edit" asp-route-restaurantId="">
+                    <i class="fas fa-edit"></i>
+                    <span>Add to cart</span>
+                </a>
+            </div>
+        </div>
+    </div>
