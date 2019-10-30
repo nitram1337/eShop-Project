@@ -22,8 +22,7 @@ namespace WebShop.Pages.Products
         }
         public IActionResult OnGet(int productId)
         {
-            
-                Product = _listProductService.ViewProductById(productId);
+            Product = _listProductService.ViewProductById(productId);
             return Page();
         }
     }

@@ -28,14 +28,30 @@ namespace WebShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IListProductService, ListProductService>();
+            services.AddScoped<IProductFilterDropdownService, ProductFilterDropdownService>();
 
             services.AddDbContext<EshopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("WebShop")));
             services.AddRazorPages();
 
+            #region MINI PROFILING
             services.AddMiniProfiler(options =>
             {
                 options.TrackConnectionOpenClose = true;
             }).AddEntityFramework();
+            #endregion
+
+            #region SESSION
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +71,10 @@ namespace WebShop
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            #region SESSION
+            app.UseSession();
+            #endregion
 
             app.UseRouting();
 

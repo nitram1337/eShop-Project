@@ -29,10 +29,10 @@ namespace ServiceLayer.ProductService.QueryObjects
                     return products;
 
                 case ProductsFilterBy.ByBrand:
-                    return products.Where(x => x.BrandName == filterValue);
+                    return products.Where(x => x.BrandName.Contains(filterValue));
 
                 case ProductsFilterBy.ByModel:
-                    return products.Where(x => x.ModelName == filterValue);
+                    return products.Where(x => x.ModelName.Contains(filterValue));
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(filterBy), filterBy, null);
