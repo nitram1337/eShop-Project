@@ -25,38 +25,43 @@ namespace WebShop.Pages.Products
             _listProductService = listProductService;
         }
 
-        public List<ProductListDto> Products { get; set; }
+        public IList<ProductListDto> Products { get; set; }
 
-        #region Ordering/Filtering
+        #region Ordering/Filtering/Pagination
         [BindProperty(SupportsGet = true)]
         public OrderByOptions OrderBy { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public ProductsFilterBy FilterBy { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string FilterValue { get; set; }
+
+
+        // Pagination (Antal sider)
+        public int TotalPages { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int CurrentPage { get; set; } = 1;
         #endregion
 
 
         public IActionResult OnGet()
         {
-            // Tuples for DropDownControl i webclient
-            //var blogFilterDropdownService = new ProductFilterDropdownService(context);
-            //var dropdownItems = blogFilterDropdownService.GetFilterDropDownValues(BlogsFilterBy.ByOwner).ToList();
-
-            //foreach (var item in dropdownItems)
-            //{
-            //    Console.WriteLine("{0} - {1}", item.Value, item.Text);
-            //}
-
-
-            List<ProductListDto> products = _listProductService.SortFilterPage(new SortFilterPageOptions
+            SortFilterPageOptions options = new SortFilterPageOptions
             {
                 OrderByOptions = OrderBy,
                 FilterBy = FilterBy,
-                FilterValue = "320I",
+                FilterValue = FilterValue,
 
-                PageNum = 1,
-                PageSize = 10
-            }).ToList();
+                PageNum = CurrentPage,
+                PageSize = 2
+            };
+
+            var products = _listProductService.SortFilterPage(options).ToList();
+
+            // Antal sider
+            TotalPages = options.NumPages;
             Products = products;
             return Page();
         }

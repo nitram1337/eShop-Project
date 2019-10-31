@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{CurrentPage=1}"
 @model WebShop.Pages.Products.IndexModel
 @{
     ViewData["Title"] = "Products";
@@ -17,50 +17,51 @@
         </div>
         <div class="form-group mx-sm-3">
             @*<label for="inputPassword2" class="sr-only">Password</label>*@
-            <input class="form-control" type="text" placeholder="Search..." />
+            <input class="form-control" asp-for="FilterValue" type="text" placeholder="Search..."/>
         </div>
-        <button type="submit" class="btn btn-info">Search</button>
+        <button type="submit" class="btn btn-info" asp-route-CurrentPage="1">Search</button>
     </form>
-    
+
 </div>
 <br />
 
 <div class="card-deck">
-    @foreach (var item in Model?.Products)
+
+    @foreach (var item in Model.Products)
     {
-    <div class="col-md-4 d-flex align-items-stretch">
-        <div class="card my-4 border-info">
-            @if (item.PhotoPath == null)
+        <div class="col-md-4 d-flex align-items-stretch">
+            <div class="card my-4 border-info">
+                @if (item.PhotoPath == null)
                 {<img class="card-img-top" src="~/img/notfound.png" asp-append-version="true" alt="Card image" style="width:100%"> }
                 else
                 { <img class="card-img-top" src="~/img/@{@item.PhotoPath}.jpg" asp-append-version="true" alt="Card image" style="width:100%">}
-            <div class="card-body">
-                <h5 class="card-title">@item.BrandName</h5>
-                <p class="card-text">@item.ModelName</p>
-                <span>Price:</span><h5><b>@item.Price</b></h5>
-            </div>
-            <div class="card-footer text-muted">
+                <div class="card-body">
+                    <h5 class="card-title">@item.BrandName</h5>
+                    <p class="card-text">@item.ModelName</p>
+                    <span>Price:</span><h5><b>@item.Price</b></h5>
+                </div>
+                <div class="card-footer text-muted">
 
-                <a class="btn btn-info" asp-page="/Products/Details" asp-route-productId="@item.Id">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Details</span>
-                </a>
-                <a class="btn btn-info" asp-page="./Edit" asp-route-restaurantId="">
-                    <i class="fas fa-edit"></i>
-                    <span>Add to cart</span>
-                </a>
+                    <a class="btn btn-info" asp-page="/Products/Details" asp-route-productId="@item.Id">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Details</span>
+                    </a>
+                    <a class="btn btn-info" asp-page="./Edit" asp-route-restaurantId="">
+                        <i class="fas fa-edit"></i>
+                        <span>Add to cart</span>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
     }
 </div>
-@*<div>
+<div>
     <ul class="pagination">
         @for (var i = 1; i <= Model.TotalPages; i++)
         {
             <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                <a asp-page="/Movies/Index" asp-all-route-data="@(new Dictionary<string, string> {{ "currentpage", @i.ToString() }, { "SortBy", Model.SortBy }, { "MovieGenre", Model.MovieGenre } })" class="page-link">@i</a>
+                <a asp-page="/Products/Index" asp-all-route-data="@(new Dictionary<string, string> {{ "CurrentPage", @i.ToString() }, { "OrderBy", Model.OrderBy.ToString() }, { "FilterBy", Model.FilterBy.ToString() }, {"FilterValue", Model.FilterValue?.ToString() } })" class="page-link">@i</a>
             </li>
         }
     </ul>
-</div>*@
+    </div>

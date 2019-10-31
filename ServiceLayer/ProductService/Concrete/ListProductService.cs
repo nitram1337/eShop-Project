@@ -28,7 +28,7 @@ namespace ServiceLayer.ProductService.Concrete
                 .OrderProductsBy(options.OrderByOptions)
                 .FilterBlogsBy(options.FilterBy, options.FilterValue);
             options.SetupRestOfDto(productsQuery);                             // Added
-            return productsQuery.Page(options.PageNum - 1, options.PageSize);  // Added
+            return productsQuery.Page(options.PageNum, options.PageSize);  // Added
         }
         public ProductListDto ViewProductById(int id)
         {

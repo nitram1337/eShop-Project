@@ -15,7 +15,7 @@ namespace DataLayer.QueryObjects
             }
             if (pageNumZeroStart != 0)
             {
-                query = query.Skip(pageNumZeroStart * pageSize);    // Skips number of pages
+                query = query.Skip((pageNumZeroStart - 1) * pageSize);    // Skips number of pages
             }
             return query.Take(pageSize);                            // Takes the number for this page size
         }
