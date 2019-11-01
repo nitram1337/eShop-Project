@@ -1,0 +1,21 @@
+﻿@page
+@model WebShop.Pages.Products.CartModel
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Cart</h1>
+
+@if (Model.AllCartProducts != null)
+{
+    foreach (var item in Model.AllCartProducts)
+    {
+        <p>@item.Product.BrandName, @item.Product.ModelName, @item.Amount</p>
+    }
+}
+else
+{
+    <h3>The cart is empty...</h3>
+}
+
