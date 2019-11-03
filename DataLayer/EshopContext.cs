@@ -53,6 +53,9 @@ namespace DataLayer
 
 
             modelBuilder.Entity<OrderCar>()
+            .HasKey(pt => new { pt.OrderId, pt.CarId });
+
+            modelBuilder.Entity<OrderCar>()
             .HasOne(p => p.Order)
             .WithMany(b => b.OrderCars)
             .HasForeignKey(p => p.OrderId);
@@ -110,10 +113,10 @@ namespace DataLayer
                 new Order() { OrderId = 2, DatePlaced = DateTime.Now, TotalPrice = 1364000, CustomerId = 2, PaymentId = 3, DeliveryId = 2}
                 );
             modelBuilder.Entity<OrderCar>().HasData(
-                new OrderCar() { OrderCarId = 1, OrderId = 1, CarId = 1 },
-                new OrderCar() { OrderCarId = 2, OrderId = 2, CarId = 2 },
-                new OrderCar() { OrderCarId = 3, OrderId = 1, CarId = 4 },
-                new OrderCar() { OrderCarId = 4, OrderId = 2, CarId = 5 }
+                new OrderCar() { OrderId = 1, CarId = 1, Amount = 1 },
+                new OrderCar() { OrderId = 2, CarId = 2, Amount = 1 },
+                new OrderCar() { OrderId = 1, CarId = 4, Amount = 1 },
+                new OrderCar() { OrderId = 2, CarId = 5, Amount = 1 }
                 );
         }
     }

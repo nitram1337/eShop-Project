@@ -6,16 +6,56 @@
 }
 
 <h1>Cart</h1>
+<form method="post" asp-page="cart" asp-page-handler="update">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr align="center">
+                <th scope="col"></th>
+                <th scope="col">Brand</th>
+                <th scope="col">Model</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Price each</th>
+                <th scope="col">Price all</th>
+                <th scope="col">Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllCartProducts)
+            {
 
-@if (Model.AllCartProducts != null)
-{
-    foreach (var item in Model.AllCartProducts)
+
+                <tr align="center">
+                    <th scope="row">
+                        @if (item.Product.PhotoPath == null)
+                        {<img class="" src="~/img/notfound.png" asp-append-version="true" alt="Card image" style="max-width: 100px"> }
+                        else
+                        { <img class="" src="~/img/@{@item.Product.PhotoPath}.jpg" asp-append-version="true" alt="Card image" style="max-width: 100px">}
+                    </th>
+                    <td>@item.Product.BrandName</td>
+                    <td>@item.Product.ModelName</td>
+                    <td><input type="number" name="quantities" value="@item.Amount" min="1" style="width: 50px;" /></td>
+                    <td>@item.Product.Price</td>
+                    <td>@(item.Product.Price * item.Amount)</td>
+                    <td align="center">
+                        <a asp-page="cart" asp-page-handler="delete" asp-route-id="@item.Product.Id">X</a>
+                    </td>
+                </tr>
+
+                @*<p>@item.Product.BrandName, @item.Product.ModelName, @item.Amount</p>*@
+            }
+            <tr>
+                <td colspan="6" align="right">Total</td>
+                <td align="center">$@Model.TotalPrice</td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div class="float-left"><a asp-page="/Products/Index">Continue Shopping</a></div>
+    @if (Model.AllCartProducts.Count > 0)
     {
-        <p>@item.Product.BrandName, @item.Product.ModelName, @item.Amount</p>
+        <div class="float-right"><input class="btn btn-info" type="submit" value="Update" /></div>
     }
-}
-else
-{
-    <h3>The cart is empty...</h3>
-}
-
+    
+     
+</form>
+<br />

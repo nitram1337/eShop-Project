@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initialss : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Brand",
+                name: "Brands",
                 columns: table => new
                 {
                     BrandId = table.Column<int>(nullable: false)
@@ -17,7 +17,7 @@ namespace DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Brand", x => x.BrandId);
+                    table.PrimaryKey("PK_Brands", x => x.BrandId);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,7 +62,7 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Car",
+                name: "Cars",
                 columns: table => new
                 {
                     CarId = table.Column<int>(nullable: false)
@@ -74,11 +74,11 @@ namespace DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Car", x => x.CarId);
+                    table.PrimaryKey("PK_Cars", x => x.CarId);
                     table.ForeignKey(
-                        name: "FK_Car_Brand_BrandId",
+                        name: "FK_Cars_Brands_BrandId",
                         column: x => x.BrandId,
-                        principalTable: "Brand",
+                        principalTable: "Brands",
                         principalColumn: "BrandId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -125,35 +125,34 @@ namespace DataLayer.Migrations
                     PhotoId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PhotoPath = table.Column<string>(nullable: true),
-                    CarId = table.Column<int>(nullable: false)
+                    CarId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Photo", x => x.PhotoId);
                     table.ForeignKey(
-                        name: "FK_Photo_Car_CarId",
+                        name: "FK_Photo_Cars_CarId",
                         column: x => x.CarId,
-                        principalTable: "Car",
+                        principalTable: "Cars",
                         principalColumn: "CarId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "OrderCar",
                 columns: table => new
                 {
-                    OrderCarId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(nullable: false),
-                    CarId = table.Column<int>(nullable: false)
+                    CarId = table.Column<int>(nullable: false),
+                    Amount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderCar", x => x.OrderCarId);
+                    table.PrimaryKey("PK_OrderCar", x => new { x.OrderId, x.CarId });
                     table.ForeignKey(
-                        name: "FK_OrderCar_Car_CarId",
+                        name: "FK_OrderCar_Cars_CarId",
                         column: x => x.CarId,
-                        principalTable: "Car",
+                        principalTable: "Cars",
                         principalColumn: "CarId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -165,7 +164,7 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Brand",
+                table: "Brands",
                 columns: new[] { "BrandId", "BrandName" },
                 values: new object[,]
                 {
@@ -203,16 +202,16 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Car",
+                table: "Cars",
                 columns: new[] { "CarId", "BrandId", "ModelName", "PhotoId", "Price" },
                 values: new object[,]
                 {
-                    { 1, 1, "320I", 1, 420m },
-                    { 4, 1, "M5", null, 2500m },
-                    { 2, 2, "V40", 2, 304m },
-                    { 5, 2, "XC90", null, 1060m },
-                    { 3, 3, "E220", 3, 650m },
-                    { 6, 3, "E63S", null, 2700m }
+                    { 1, 1, "320I", 1, 420000m },
+                    { 4, 1, "M5", null, 2500000m },
+                    { 2, 2, "V40", 2, 304000m },
+                    { 5, 2, "XC90", null, 1060000m },
+                    { 3, 3, "E220", 3, 650000m },
+                    { 6, 3, "E63S", null, 2700000m }
                 });
 
             migrationBuilder.InsertData(
@@ -220,19 +219,19 @@ namespace DataLayer.Migrations
                 columns: new[] { "OrderId", "CustomerId", "DatePlaced", "DeliveryId", "PaymentId", "TotalPrice" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2019, 10, 17, 18, 30, 37, 98, DateTimeKind.Local).AddTicks(8949), 1, 2, 2920m },
-                    { 2, 2, new DateTime(2019, 10, 17, 18, 30, 37, 101, DateTimeKind.Local).AddTicks(5796), 2, 3, 1364m }
+                    { 1, 1, new DateTime(2019, 11, 3, 15, 3, 38, 878, DateTimeKind.Local).AddTicks(26), 1, 2, 2920000m },
+                    { 2, 2, new DateTime(2019, 11, 3, 15, 3, 38, 882, DateTimeKind.Local).AddTicks(1715), 2, 3, 1364000m }
                 });
 
             migrationBuilder.InsertData(
                 table: "OrderCar",
-                columns: new[] { "OrderCarId", "CarId", "OrderId" },
+                columns: new[] { "OrderId", "CarId", "Amount" },
                 values: new object[,]
                 {
                     { 1, 1, 1 },
-                    { 3, 4, 1 },
-                    { 2, 2, 2 },
-                    { 4, 5, 2 }
+                    { 1, 4, 1 },
+                    { 2, 2, 1 },
+                    { 2, 5, 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -246,19 +245,14 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Car_BrandId",
-                table: "Car",
+                name: "IX_Cars_BrandId",
+                table: "Cars",
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderCar_CarId",
                 table: "OrderCar",
                 column: "CarId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderCar_OrderId",
-                table: "OrderCar",
-                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerId",
@@ -279,7 +273,8 @@ namespace DataLayer.Migrations
                 name: "IX_Photo_CarId",
                 table: "Photo",
                 column: "CarId",
-                unique: true);
+                unique: true,
+                filter: "[CarId] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -294,7 +289,7 @@ namespace DataLayer.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Car");
+                name: "Cars");
 
             migrationBuilder.DropTable(
                 name: "Customers");
@@ -306,7 +301,7 @@ namespace DataLayer.Migrations
                 name: "Payment");
 
             migrationBuilder.DropTable(
-                name: "Brand");
+                name: "Brands");
         }
     }
 }

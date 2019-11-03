@@ -22,6 +22,7 @@ namespace WebShop.Pages.Products
 
         [BindProperty]
         public List<ProductCart> AllCartProducts { get; set; }
+        public decimal TotalPrice { get; set; }
 
         public void OnGet()
         {
@@ -41,8 +42,41 @@ namespace WebShop.Pages.Products
                         });
                 }
             }
-
+            
             AllCartProducts = allCartProducts;
+            TotalPrice = AllCartProducts.Sum(i => i.Product.Price * i.Amount);
+        }
+
+        public IActionResult OnGetDelete(int id)
+        {
+            List<SessionData> sessionDatas = HttpContext.Session.Get<List<SessionData>>("Cart");
+            int index = Exists(sessionDatas, id);
+            sessionDatas.RemoveAt(index);
+            HttpContext.Session.Set<List<SessionData>>("Cart", sessionDatas);
+            return RedirectToPage("Cart");
+        }
+
+        private int Exists(List<SessionData> cart, int id)
+        {
+            for (var i = 0; i < cart.Count; i++)
+            {
+                if (cart[i].ProductId == id)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public IActionResult OnPostUpdate(int[] quantities)
+        {
+            List<SessionData> sessionDatas = HttpContext.Session.Get<List<SessionData>>("Cart");
+            for (var i = 0; i < sessionDatas.Count; i++)
+            {
+                sessionDatas[i].Amount = quantities[i];
+            }
+            HttpContext.Session.Set<List<SessionData>>("Cart", sessionDatas);
+            return RedirectToPage("Cart");
         }
     }
 }

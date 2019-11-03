@@ -225,7 +225,7 @@ namespace DataLayer.Migrations
                         {
                             OrderId = 1,
                             CustomerId = 1,
-                            DatePlaced = new DateTime(2019, 10, 27, 21, 6, 31, 577, DateTimeKind.Local).AddTicks(8927),
+                            DatePlaced = new DateTime(2019, 11, 3, 15, 3, 38, 878, DateTimeKind.Local).AddTicks(26),
                             DeliveryId = 1,
                             PaymentId = 2,
                             TotalPrice = 2920000m
@@ -234,7 +234,7 @@ namespace DataLayer.Migrations
                         {
                             OrderId = 2,
                             CustomerId = 2,
-                            DatePlaced = new DateTime(2019, 10, 27, 21, 6, 31, 581, DateTimeKind.Local).AddTicks(1691),
+                            DatePlaced = new DateTime(2019, 11, 3, 15, 3, 38, 882, DateTimeKind.Local).AddTicks(1715),
                             DeliveryId = 2,
                             PaymentId = 3,
                             TotalPrice = 1364000m
@@ -243,49 +243,45 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.OrderCar", b =>
                 {
-                    b.Property<int>("OrderCarId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId")
+                    b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.HasKey("OrderCarId");
+                    b.HasKey("OrderId", "CarId");
 
                     b.HasIndex("CarId");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderCar");
 
                     b.HasData(
                         new
                         {
-                            OrderCarId = 1,
+                            OrderId = 1,
                             CarId = 1,
-                            OrderId = 1
+                            Amount = 1
                         },
                         new
                         {
-                            OrderCarId = 2,
+                            OrderId = 2,
                             CarId = 2,
-                            OrderId = 2
+                            Amount = 1
                         },
                         new
                         {
-                            OrderCarId = 3,
+                            OrderId = 1,
                             CarId = 4,
-                            OrderId = 1
+                            Amount = 1
                         },
                         new
                         {
-                            OrderCarId = 4,
+                            OrderId = 2,
                             CarId = 5,
-                            OrderId = 2
+                            Amount = 1
                         });
                 });
 

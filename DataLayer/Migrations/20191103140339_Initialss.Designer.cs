@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EshopContext))]
-    [Migration("20191017174030_EditPhoto")]
-    partial class EditPhoto
+    [Migration("20191103140339_Initialss")]
+    partial class Initialss
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("BrandId");
 
-                    b.ToTable("Brand");
+                    b.ToTable("Brands");
 
                     b.HasData(
                         new
@@ -76,7 +76,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.ToTable("Car");
+                    b.ToTable("Cars");
 
                     b.HasData(
                         new
@@ -227,7 +227,7 @@ namespace DataLayer.Migrations
                         {
                             OrderId = 1,
                             CustomerId = 1,
-                            DatePlaced = new DateTime(2019, 10, 17, 19, 40, 30, 419, DateTimeKind.Local).AddTicks(1822),
+                            DatePlaced = new DateTime(2019, 11, 3, 15, 3, 38, 878, DateTimeKind.Local).AddTicks(26),
                             DeliveryId = 1,
                             PaymentId = 2,
                             TotalPrice = 2920000m
@@ -236,7 +236,7 @@ namespace DataLayer.Migrations
                         {
                             OrderId = 2,
                             CustomerId = 2,
-                            DatePlaced = new DateTime(2019, 10, 17, 19, 40, 30, 421, DateTimeKind.Local).AddTicks(6507),
+                            DatePlaced = new DateTime(2019, 11, 3, 15, 3, 38, 882, DateTimeKind.Local).AddTicks(1715),
                             DeliveryId = 2,
                             PaymentId = 3,
                             TotalPrice = 1364000m
@@ -245,49 +245,45 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.OrderCar", b =>
                 {
-                    b.Property<int>("OrderCarId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId")
+                    b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.HasKey("OrderCarId");
+                    b.HasKey("OrderId", "CarId");
 
                     b.HasIndex("CarId");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderCar");
 
                     b.HasData(
                         new
                         {
-                            OrderCarId = 1,
+                            OrderId = 1,
                             CarId = 1,
-                            OrderId = 1
+                            Amount = 1
                         },
                         new
                         {
-                            OrderCarId = 2,
+                            OrderId = 2,
                             CarId = 2,
-                            OrderId = 2
+                            Amount = 1
                         },
                         new
                         {
-                            OrderCarId = 3,
+                            OrderId = 1,
                             CarId = 4,
-                            OrderId = 1
+                            Amount = 1
                         },
                         new
                         {
-                            OrderCarId = 4,
+                            OrderId = 2,
                             CarId = 5,
-                            OrderId = 2
+                            Amount = 1
                         });
                 });
 
