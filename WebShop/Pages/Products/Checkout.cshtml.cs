@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceLayer.OrderService.Abstract;
 using ServiceLayer.OrderService.Concrete;
+using ServiceLayer.OrderService.Dto;
 using ServiceLayer.ProductService;
 using ServiceLayer.ProductService.Abstract;
+using WebShop.Helper;
 
 namespace WebShop.Pages.Products
 {
@@ -16,13 +19,15 @@ namespace WebShop.Pages.Products
     {
         private readonly IDeliveryPaymentDropdownService _listPaymentDeliveryService;
         private readonly IListOrderService _listOrderService;
+        private readonly IListProductService _listProductService;
 
-        public CheckoutModel(IDeliveryPaymentDropdownService listPaymentDeliveryService, IListOrderService listOrderService)
+        public CheckoutModel(IDeliveryPaymentDropdownService listPaymentDeliveryService, IListOrderService listOrderService, IListProductService listProductService)
         {
             _listPaymentDeliveryService = listPaymentDeliveryService;
             _listOrderService = listOrderService;
+            _listProductService = listProductService;
         }
-
+        
         [BindProperty]
         public string PaymentOption { get; set; }
         [BindProperty]
@@ -33,6 +38,10 @@ namespace WebShop.Pages.Products
         public string Email { get; set; }
         [BindProperty]
         public string Address { get; set; }
+
+        [BindProperty]
+        public OrderDto FullOrder { get; set; }
+
 
         public SelectList PaymentOptionDropdown { get; set; }
         public SelectList DeliveryOptionDropdown { get; set; }
@@ -46,7 +55,44 @@ namespace WebShop.Pages.Products
 
         public void OnPost()
         {
-            //_listOrderService.AddOrder("navntest","emailtest","addressetest");
+            FullOrder.Products = new List<ProductWithAmount>();
+
+            // Bruges til at smide alle produkternes price og amount ind i
+            List<ProductAmountPrice> allCartPriceAndAmount = new List<ProductAmountPrice>();
+
+            // Tjekker at session ikke er null
+            if (HttpContext.Session.Get<List<SessionData>>("Cart") != null)
+            {
+                List<SessionData> sessionDatas = HttpContext.Session.Get<List<SessionData>>("Cart");
+                foreach (var sessionData in sessionDatas)
+                {
+                    FullOrder.Products.Add(
+                        new ProductWithAmount { ProductsId = sessionData.ProductId, Amount = sessionData.Amount }
+                        );
+                    allCartPriceAndAmount.Add(
+                        new ProductAmountPrice
+                        {
+                            Price = _listProductService.ViewProductById(sessionData.ProductId).Price,
+                            Amount = sessionData.Amount
+                        });
+                }
+            }
+
+            FullOrder.TotalPrice = allCartPriceAndAmount.Sum(i => i.Price * i.Amount); ;
+            //OrderDto nyOrder = new OrderDto {
+            //Name = "test",
+            //Email = "Test",
+            //Address = "Test",
+            //DeliveryOption = 1,
+            //PaymentOption = 1,
+            //TotalPrice = 1000
+            //};
+
+            //nyOrder.Products = new List<ProductWithAmount> {
+            //new ProductWithAmount{ProductsId = 1, Amount = 2 },
+            //new ProductWithAmount{ProductsId = 2, Amount = 2 }
+            //};
+            _listOrderService.AddOrder(FullOrder);
         }
     }
 }

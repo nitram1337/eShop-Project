@@ -33,12 +33,13 @@ namespace ServiceLayer.OrderService.Concrete
                 Address = nyOrder.Address
 
             };
-            Order newOrder = new Order { PaymentId = nyOrder.PaymentOption, DeliveryId = nyOrder.DeliveryOption, DatePlaced = DateTime.Now, TotalPrice = 1000000 };
+            Order newOrder = new Order { PaymentId = nyOrder.PaymentOption, DeliveryId = nyOrder.DeliveryOption, DatePlaced = DateTime.Now, TotalPrice = nyOrder.TotalPrice };
             newOrder.OrderCars = new List<OrderCar>();
 
             foreach (ProductWithAmount product in nyOrder.Products)
             {
-                newOrder.OrderCars.Add(new OrderCar { OrderId = newOrder.OrderId, CarId = product.ProductsId, Amount = product.Amount });
+                //newOrder.OrderCars.Add(new OrderCar { OrderId = newOrder.OrderId, CarId = product.ProductsId, Amount = product.Amount });
+                newOrder.OrderCars.Add(new OrderCar { CarId = product.ProductsId, Amount = product.Amount });
             }
             customer.Orders = new List<Order> { newOrder };
            
