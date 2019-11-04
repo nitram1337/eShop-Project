@@ -40,5 +40,15 @@ namespace ServiceLayer.ProductService.Concrete
 
             return product;
         }
+        public ProductListDto CreateProduct(int id)
+        {
+            var product = _context.Cars
+                .AsNoTracking()
+                .Where(a => a.CarId == id)
+                .MapProductToDto()
+                .FirstOrDefault();
+
+            return product;
+        }
     }
 }

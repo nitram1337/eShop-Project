@@ -55,7 +55,11 @@
     {
         <div class="float-right"><input class="btn btn-info" type="submit" value="Update" /></div>
     }
-    
-     
 </form>
+<div class="clearfix"></div>
+<br />
+@if (Model.AllCartProducts.Count > 0)
+{
+    <div class="float-right"><a class="btn btn-info" asp-page="/Products/Checkout">Checkout</a></div>
+}
 <br />

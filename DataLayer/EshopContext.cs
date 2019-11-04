@@ -20,6 +20,8 @@ namespace DataLayer
         public DbSet<Order> Orders { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

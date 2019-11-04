@@ -1,6 +1,8 @@
 ﻿using DataLayer;
 using DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
+using ServiceLayer.OrderService.Abstract;
+using ServiceLayer.OrderService.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Text;
 
 namespace ServiceLayer.OrderService.Concrete
 {
-    public class ListOrderService
+    public class ListOrderService : IListOrderService
     {
         // Dependency Injection of Context
         private readonly EshopContext _context;
@@ -20,6 +22,26 @@ namespace ServiceLayer.OrderService.Concrete
         public void AddCustomer(string name, string email, string adress)
         {
             Customer customer = new Customer { Name = name, Email = email, Address = adress };
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
+        }
+        public void AddOrder(OrderDto nyOrder)
+        {
+            Customer customer = new Customer {
+                Name = nyOrder.Name,
+                Email = nyOrder.Email,
+                Address = nyOrder.Address
+
+            };
+            Order newOrder = new Order { PaymentId = nyOrder.PaymentOption, DeliveryId = nyOrder.DeliveryOption, DatePlaced = DateTime.Now, TotalPrice = 1000000 };
+            newOrder.OrderCars = new List<OrderCar>();
+
+            foreach (ProductWithAmount product in nyOrder.Products)
+            {
+                newOrder.OrderCars.Add(new OrderCar { OrderId = newOrder.OrderId, CarId = product.ProductsId, Amount = product.Amount });
+            }
+            customer.Orders = new List<Order> { newOrder };
+           
             _context.Customers.Add(customer);
             _context.SaveChanges();
         }

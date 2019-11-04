@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ServiceLayer.OrderService.Abstract;
+using ServiceLayer.OrderService.Concrete;
 using ServiceLayer.ProductService.Abstract;
 using ServiceLayer.ProductService.Concrete;
 
@@ -29,6 +31,8 @@ namespace WebShop
         {
             services.AddScoped<IListProductService, ListProductService>();
             services.AddScoped<IProductFilterDropdownService, ProductFilterDropdownService>();
+            services.AddScoped<IDeliveryPaymentDropdownService, DeliveryPaymentDropdownService>();
+            services.AddScoped<IListOrderService, ListOrderService>();
 
             services.AddDbContext<EshopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("WebShop")));
             services.AddRazorPages();
