@@ -53,7 +53,7 @@ namespace WebShop.Pages.Products
             DeliveryOptionDropdown = new SelectList(_listPaymentDeliveryService.GetDeliveryPaymentDropdown(DeliveryPaymentOption.Delivery).ToList(), "Value", "Text");
         }
 
-        public void OnPost()
+        public IActionResult OnPost()
         {
             FullOrder.Products = new List<ProductWithAmount>();
 
@@ -79,20 +79,9 @@ namespace WebShop.Pages.Products
             }
 
             FullOrder.TotalPrice = allCartPriceAndAmount.Sum(i => i.Price * i.Amount); ;
-            //OrderDto nyOrder = new OrderDto {
-            //Name = "test",
-            //Email = "Test",
-            //Address = "Test",
-            //DeliveryOption = 1,
-            //PaymentOption = 1,
-            //TotalPrice = 1000
-            //};
-
-            //nyOrder.Products = new List<ProductWithAmount> {
-            //new ProductWithAmount{ProductsId = 1, Amount = 2 },
-            //new ProductWithAmount{ProductsId = 2, Amount = 2 }
-            //};
             _listOrderService.AddOrder(FullOrder);
+
+            return RedirectToPage("Confirmed");
         }
     }
 }
