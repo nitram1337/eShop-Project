@@ -67,7 +67,7 @@ namespace WebAPI.Controllers
 
         // PUT: api/Products
         [HttpPut]
-        public IActionResult PutTodoItem(ProductEdit editedProduct)
+        public IActionResult PutProduct(ProductEdit editedProduct)
         {
             if (editedProduct == null)
             {
