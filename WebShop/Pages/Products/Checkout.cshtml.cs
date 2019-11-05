@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -55,33 +56,44 @@ namespace WebShop.Pages.Products
 
         public IActionResult OnPost()
         {
-            FullOrder.Products = new List<ProductWithAmount>();
-
-            // Bruges til at smide alle produkternes price og amount ind i
-            List<ProductAmountPrice> allCartPriceAndAmount = new List<ProductAmountPrice>();
-
-            // Tjekker at session ikke er null
-            if (HttpContext.Session.Get<List<SessionData>>("Cart") != null)
+            if (ModelState.IsValid)
             {
-                List<SessionData> sessionDatas = HttpContext.Session.Get<List<SessionData>>("Cart");
-                foreach (var sessionData in sessionDatas)
-                {
-                    FullOrder.Products.Add(
-                        new ProductWithAmount { ProductsId = sessionData.ProductId, Amount = sessionData.Amount }
-                        );
-                    allCartPriceAndAmount.Add(
-                        new ProductAmountPrice
-                        {
-                            Price = _listProductService.ViewProductById(sessionData.ProductId).Price,
-                            Amount = sessionData.Amount
-                        });
-                }
-            }
+                FullOrder.Products = new List<ProductWithAmount>();
 
-            FullOrder.TotalPrice = allCartPriceAndAmount.Sum(i => i.Price * i.Amount); ;
-            _listOrderService.AddOrder(FullOrder);
-            HttpContext.Session.Clear();
-            return RedirectToPage("Confirmed");
+                // Bruges til at smide alle produkternes price og amount ind i
+                List<ProductAmountPrice> allCartPriceAndAmount = new List<ProductAmountPrice>();
+
+                // Tjekker at session ikke er null
+                if (HttpContext.Session.Get<List<SessionData>>("Cart") != null)
+                {
+                    List<SessionData> sessionDatas = HttpContext.Session.Get<List<SessionData>>("Cart");
+                    foreach (var sessionData in sessionDatas)
+                    {
+                        FullOrder.Products.Add(
+                            new ProductWithAmount { ProductsId = sessionData.ProductId, Amount = sessionData.Amount }
+                            );
+                        allCartPriceAndAmount.Add(
+                            new ProductAmountPrice
+                            {
+                                Price = _listProductService.ViewProductById(sessionData.ProductId).Price,
+                                Amount = sessionData.Amount
+                            });
+                    }
+                }
+
+                FullOrder.TotalPrice = allCartPriceAndAmount.Sum(i => i.Price * i.Amount); ;
+                _listOrderService.AddOrder(FullOrder);
+                HttpContext.Session.Clear();
+                return RedirectToPage("Confirmed");
+            }
+            else
+            {
+                // Skal sættes igen, ellers så mister dropdowns'ne alle deres values...
+                PaymentOptionDropdown = new SelectList(_listPaymentDeliveryService.GetDeliveryPaymentDropdown(DeliveryPaymentOption.Payment).ToList(), "Value", "Text");
+                DeliveryOptionDropdown = new SelectList(_listPaymentDeliveryService.GetDeliveryPaymentDropdown(DeliveryPaymentOption.Delivery).ToList(), "Value", "Text");
+                return Page();
+            }
+            
         }
     }
 }

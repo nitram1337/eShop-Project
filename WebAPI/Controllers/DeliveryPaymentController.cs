@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
 
         // GET: api/DeliveryPayment/1
         [HttpGet("{option}")]
-        public ActionResult<IEnumerable<DropdownTuple>> GetProduct(DeliveryPaymentOption option)
+        public ActionResult<IEnumerable<DropdownTuple>> GetDeliveryPayment(DeliveryPaymentOption option)
         {
             return _listDeliveryPaymentservice.GetDeliveryPaymentDropdown(option).ToList();
         }

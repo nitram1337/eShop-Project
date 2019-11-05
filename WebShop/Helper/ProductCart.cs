@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebShop.Helper
 {
-    // Bruges til at display produktet, sammen med antallet af hvert produkt
+    // Bruges til at display produktet, sammen med antallet af hvert produkt, i cart
     public class ProductCart
     {
         public ProductListDto Product { get; set; }

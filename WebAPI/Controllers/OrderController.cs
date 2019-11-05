@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         public ActionResult PostOrder(OrderDto order)
         {
             _listOrderService.AddOrder(order);
-            return NoContent();
+            return Ok();
         }
     }
 }
