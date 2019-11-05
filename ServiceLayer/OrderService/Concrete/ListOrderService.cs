@@ -33,7 +33,12 @@ namespace ServiceLayer.OrderService.Concrete
                 Address = nyOrder.Address
 
             };
-            Order newOrder = new Order { PaymentId = nyOrder.PaymentOption, DeliveryId = nyOrder.DeliveryOption, DatePlaced = DateTime.Now, TotalPrice = nyOrder.TotalPrice };
+            Order newOrder = new Order {
+                PaymentId = nyOrder.PaymentOption,
+                DeliveryId = nyOrder.DeliveryOption,
+                DatePlaced = DateTime.Now,
+                TotalPrice = nyOrder.TotalPrice 
+            };
             newOrder.OrderCars = new List<OrderCar>();
 
             foreach (ProductWithAmount product in nyOrder.Products)
@@ -41,6 +46,7 @@ namespace ServiceLayer.OrderService.Concrete
                 //newOrder.OrderCars.Add(new OrderCar { OrderId = newOrder.OrderId, CarId = product.ProductsId, Amount = product.Amount });
                 newOrder.OrderCars.Add(new OrderCar { CarId = product.ProductsId, Amount = product.Amount });
             }
+
             customer.Orders = new List<Order> { newOrder };
            
             _context.Customers.Add(customer);

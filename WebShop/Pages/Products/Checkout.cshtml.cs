@@ -28,16 +28,16 @@ namespace WebShop.Pages.Products
             _listProductService = listProductService;
         }
         
-        [BindProperty]
-        public string PaymentOption { get; set; }
-        [BindProperty]
-        public string DeliveryOption { get; set; }
-        [BindProperty]
-        public string Name { get; set; }
-        [BindProperty]
-        public string Email { get; set; }
-        [BindProperty]
-        public string Address { get; set; }
+        //[BindProperty]
+        //public string PaymentOption { get; set; }
+        //[BindProperty]
+        //public string DeliveryOption { get; set; }
+        //[BindProperty]
+        //public string Name { get; set; }
+        //[BindProperty]
+        //public string Email { get; set; }
+        //[BindProperty]
+        //public string Address { get; set; }
 
         [BindProperty]
         public OrderDto FullOrder { get; set; }
@@ -80,7 +80,7 @@ namespace WebShop.Pages.Products
 
             FullOrder.TotalPrice = allCartPriceAndAmount.Sum(i => i.Price * i.Amount); ;
             _listOrderService.AddOrder(FullOrder);
-
+            HttpContext.Session.Clear();
             return RedirectToPage("Confirmed");
         }
     }
