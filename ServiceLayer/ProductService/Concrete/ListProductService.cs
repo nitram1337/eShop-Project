@@ -50,5 +50,15 @@ namespace ServiceLayer.ProductService.Concrete
 
             return product;
         }
+
+        public void UpdateProduct(ProductEdit product)
+        {
+            var originalProduct = _context.Cars.Where(p => p.CarId == product.Id).FirstOrDefault();
+            originalProduct.BrandId = product.BrandId;
+            originalProduct.ModelName = product.ModelName;
+            originalProduct.Price = product.Price;
+            _context.Update(originalProduct);
+            _context.SaveChanges();
+        }
     }
 }

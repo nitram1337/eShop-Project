@@ -1,0 +1,79 @@
+﻿@page "{productId:int}"
+@model WebShop.Pages.Products.EditModel
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<br />
+
+@*<div class="jumbotron border-info border">
+    <div class="row">
+        <div class="col-lg-6">
+            @if (Model.Product.PhotoPath == null)
+            {<img class="" src="~/img/notfound.png" asp-append-version="true" alt="Card image" style="width:100%"> }
+            else
+            { <img class="rounded" src="~/img/@{@Model.Product.PhotoPath}.jpg" asp-append-version="true" alt="Card image" style="width:100%">}
+        </div>
+        <div class="col-lg-6">
+            <h1 class="card-title">@Model.Product.BrandName</h1>
+            <h4 class="card-text">@Model.Product.ModelName</h4>
+            <span>Price:</span><h5><b>@Model.Product.Price</b></h5>
+        </div>
+    </div>
+</div>
+
+<form method="post">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Name</label>
+        <input class="form-control" type="text" asp-for="FullOrder.Name" placeholder="Enter name" />
+        <span class="text-danger" asp-validation-for="FullOrder.Name"></span>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email</label>
+        <input class="form-control" type="text" asp-for="FullOrder.Email" placeholder="Enter email" />
+        <span class="text-danger" asp-validation-for="FullOrder.Email"></span>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Address</label>
+        <input class="form-control" type="text" asp-for="FullOrder.Address" placeholder="Enter address" />
+        <span class="text-danger" asp-validation-for="FullOrder.Address"></span>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Delivery</label>
+        <select class="custom-select" asp-for="FullOrder.DeliveryOption" asp-items="@Model.DeliveryOptionDropdown"></select>
+        <span class="text-danger" asp-validation-for="FullOrder.DeliveryOption"></span>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Payment</label>
+        <select class="custom-select" asp-for="FullOrder.PaymentOption" asp-items="@Model.PaymentOptionDropdown"></select>
+        <span class="text-danger" asp-validation-for="FullOrder.PaymentOption"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>*@
+
+<form method="post">
+    <input type="hidden" asp-for="EditedProduct.Id" value="@Model.Product.Id" />
+
+    <div class="form-group">
+        <label>Brand:</label>
+        <select asp-for="EditedProduct.BrandId"
+                asp-items="Model.Brands"
+                class="form-control"></select>
+        <span class="text-danger" asp-validation-for="EditedProduct.BrandId"></span>
+    </div>
+    <div class="form-group">
+        <label>Model:</label>
+        <input asp-for="EditedProduct.ModelName" value="@Model.Product.ModelName" class="form-control" />
+        <span class="text-danger" asp-validation-for="EditedProduct.ModelName"></span>
+    </div>
+    <div class="form-group">
+        <label>Price:</label>
+        <input asp-for="EditedProduct.Price" value="@Model.Product.Price" class="form-control" />
+        <span class="text-danger" asp-validation-for="EditedProduct.Price"></span>
+    </div>
+
+    <button type="submit" class="btn btn-info">Save</button>
+</form>

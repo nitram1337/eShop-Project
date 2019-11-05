@@ -10,5 +10,6 @@ namespace ServiceLayer.ProductService.Abstract
     {
         IQueryable<ProductListDto> SortFilterPage(SortFilterPageOptions options);
         ProductListDto ViewProductById(int id);
+        void UpdateProduct(ProductEdit product);
     }
 }
