@@ -42,7 +42,6 @@ namespace WebShop.Pages.Products
                 Product = _listProductService.ViewProductById(EditedProduct.Id);
                 Brands = new SelectList(_productFilterDropdownService.GetFilterDropDownValues(ProductsFilterBy.ByBrand).OrderByDescending(a => a.Text == Product.BrandName).ToList(), "Value", "Text");
                 return Page();
-
             }
             if (EditedProduct.Id > 0)
             {

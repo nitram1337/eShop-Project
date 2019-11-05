@@ -64,5 +64,20 @@ namespace WebAPI.Controllers
 
             return await _listProductService.SortFilterPage(options).ToListAsync();
         }
+
+        // PUT: api/Products
+        [HttpPut]
+        public IActionResult PutTodoItem(ProductEdit editedProduct)
+        {
+            if (editedProduct == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                _listProductService.UpdateProduct(editedProduct);
+                return NoContent();
+            }
+        }
     }
 }
