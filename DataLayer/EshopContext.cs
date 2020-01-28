@@ -1,4 +1,6 @@
 ﻿using DataLayer.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +8,7 @@ using System.Text;
 
 namespace DataLayer
 {
-    public class EshopContext : DbContext
+    public class EshopContext : IdentityDbContext<IdentityUser>
     {
         // Brugt til, så ConsoleApp kunne kører
         //public EshopContext() 
@@ -37,7 +39,7 @@ namespace DataLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Order>()
             .HasOne(p => p.Customer)
             .WithMany(b => b.Orders)

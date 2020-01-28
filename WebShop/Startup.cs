@@ -6,6 +6,7 @@ using DataLayer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,8 +36,13 @@ namespace WebShop
             services.AddScoped<IListOrderService, ListOrderService>();
 
             services.AddDbContext<EshopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("WebShop")));
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<EshopContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
+            // services.AddDefaultIdentity<IdentityUser>() 
             services.AddRazorPages();
-
+            services.AddMvc();
             #region MINI PROFILING
             services.AddMiniProfiler(options =>
             {
@@ -82,10 +88,12 @@ namespace WebShop
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
         }

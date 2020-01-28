@@ -14,9 +14,11 @@ using ServiceLayer.ProductService.QueryObjects;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using WebShop.Helper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebShop.Pages.Products
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         #region SESSION
