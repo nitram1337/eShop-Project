@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataLayer;
+using DataLayer.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,7 +37,7 @@ namespace WebShop
             services.AddScoped<IListOrderService, ListOrderService>();
 
             services.AddDbContext<EshopContext>(options => options.UseSqlServer(Configuration.GetConnectionString("WebShop")));
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<EshopContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();

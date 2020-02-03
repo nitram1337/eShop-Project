@@ -1,4 +1,5 @@
-﻿using DataLayer.Models;
+﻿using DataLayer.Identity;
+using DataLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace DataLayer
 {
-    public class EshopContext : IdentityDbContext<IdentityUser>
+    public class EshopContext : IdentityDbContext<ApplicationUser>
     {
         // Brugt til, så ConsoleApp kunne kører
         //public EshopContext() 
