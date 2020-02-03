@@ -39,7 +39,10 @@ namespace DataLayer.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Age = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -236,7 +239,7 @@ namespace DataLayer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DatePlaced = table.Column<DateTime>(nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(15, 2)", nullable: false),
-                    CustomerId = table.Column<int>(nullable: false),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PaymentId = table.Column<int>(nullable: false),
                     DeliveryId = table.Column<int>(nullable: false)
                 },
@@ -244,11 +247,11 @@ namespace DataLayer.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_Orders_Customers_CustomerId",
+                        name: "FK_Orders_AspNetUsers_CustomerId",
                         column: x => x.CustomerId,
-                        principalTable: "Customers",
-                        principalColumn: "CustomerId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Orders_Deliveries_DeliveryId",
                         column: x => x.DeliveryId,
@@ -360,34 +363,19 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Orders",
-                columns: new[] { "OrderId", "CustomerId", "DatePlaced", "DeliveryId", "PaymentId", "TotalPrice" },
-                values: new object[,]
-                {
-                    { 1, 1, new DateTime(2020, 1, 28, 20, 4, 20, 425, DateTimeKind.Local).AddTicks(834), 1, 2, 2920000m },
-                    { 2, 2, new DateTime(2020, 1, 28, 20, 4, 20, 427, DateTimeKind.Local).AddTicks(4243), 2, 3, 1364000m }
-                });
-
-            migrationBuilder.InsertData(
-                table: "OrderCar",
-                columns: new[] { "OrderId", "CarId", "Amount" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 1, 4, 1 },
-                    { 2, 2, 1 },
-                    { 2, 5, 1 }
-                });
+                table: "Photo",
+                columns: new[] { "PhotoId", "CarId", "PhotoPath" },
+                values: new object[] { 1, 1, "Photo320I" });
 
             migrationBuilder.InsertData(
                 table: "Photo",
                 columns: new[] { "PhotoId", "CarId", "PhotoPath" },
-                values: new object[,]
-                {
-                    { 1, 1, "Photo320I" },
-                    { 2, 2, "PhotoV40" },
-                    { 3, 3, "PhotoE220" }
-                });
+                values: new object[] { 2, 2, "PhotoV40" });
+
+            migrationBuilder.InsertData(
+                table: "Photo",
+                columns: new[] { "PhotoId", "CarId", "PhotoPath" },
+                values: new object[] { 3, 3, "PhotoE220" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -479,6 +467,9 @@ namespace DataLayer.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Customers");
+
+            migrationBuilder.DropTable(
                 name: "OrderCar");
 
             migrationBuilder.DropTable(
@@ -488,16 +479,13 @@ namespace DataLayer.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Cars");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Deliveries");

@@ -47,7 +47,7 @@ namespace ServiceLayer.OrderService.Concrete
                 newOrder.OrderCars.Add(new OrderCar { CarId = product.ProductsId, Amount = product.Amount });
             }
 
-            customer.Orders = new List<Order> { newOrder };
+            //customer.Orders = new List<Order> { newOrder };
            
             _context.Customers.Add(customer);
             _context.SaveChanges();

@@ -269,8 +269,8 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DatePlaced")
                         .HasColumnType("datetime2");
@@ -293,26 +293,6 @@ namespace DataLayer.Migrations
                     b.HasIndex("PaymentId");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new
-                        {
-                            OrderId = 1,
-                            CustomerId = 1,
-                            DatePlaced = new DateTime(2020, 1, 30, 19, 27, 53, 886, DateTimeKind.Local).AddTicks(5580),
-                            DeliveryId = 1,
-                            PaymentId = 2,
-                            TotalPrice = 2920000m
-                        },
-                        new
-                        {
-                            OrderId = 2,
-                            CustomerId = 2,
-                            DatePlaced = new DateTime(2020, 1, 30, 19, 27, 53, 888, DateTimeKind.Local).AddTicks(8712),
-                            DeliveryId = 2,
-                            PaymentId = 3,
-                            TotalPrice = 1364000m
-                        });
                 });
 
             modelBuilder.Entity("DataLayer.Models.OrderCar", b =>
@@ -331,32 +311,6 @@ namespace DataLayer.Migrations
                     b.HasIndex("CarId");
 
                     b.ToTable("OrderCar");
-
-                    b.HasData(
-                        new
-                        {
-                            OrderId = 1,
-                            CarId = 1,
-                            Amount = 1
-                        },
-                        new
-                        {
-                            OrderId = 2,
-                            CarId = 2,
-                            Amount = 1
-                        },
-                        new
-                        {
-                            OrderId = 1,
-                            CarId = 4,
-                            Amount = 1
-                        },
-                        new
-                        {
-                            OrderId = 2,
-                            CarId = 5,
-                            Amount = 1
-                        });
                 });
 
             modelBuilder.Entity("DataLayer.Models.Payment", b =>
@@ -575,11 +529,9 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Models.Order", b =>
                 {
-                    b.HasOne("DataLayer.Models.Customer", "Customer")
+                    b.HasOne("DataLayer.Identity.ApplicationUser", "ApplicationUser")
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("DataLayer.Models.Delivery", "Delivery")
                         .WithMany("Orders")
