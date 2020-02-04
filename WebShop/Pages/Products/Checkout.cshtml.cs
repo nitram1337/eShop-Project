@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -20,15 +22,17 @@ namespace WebShop.Pages.Products
     [Authorize]
     public class CheckoutModel : PageModel
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IDeliveryPaymentDropdownService _listPaymentDeliveryService;
         private readonly IListOrderService _listOrderService;
         private readonly IListProductService _listProductService;
 
-        public CheckoutModel(IDeliveryPaymentDropdownService listPaymentDeliveryService, IListOrderService listOrderService, IListProductService listProductService)
+        public CheckoutModel(IDeliveryPaymentDropdownService listPaymentDeliveryService, IListOrderService listOrderService, IListProductService listProductService, UserManager<ApplicationUser> userManager)
         {
             _listPaymentDeliveryService = listPaymentDeliveryService;
             _listOrderService = listOrderService;
             _listProductService = listProductService;
+            _userManager = userManager;
         }
         
         //[BindProperty]
@@ -84,7 +88,7 @@ namespace WebShop.Pages.Products
                 }
 
                 FullOrder.TotalPrice = allCartPriceAndAmount.Sum(i => i.Price * i.Amount); ;
-                _listOrderService.AddOrder(FullOrder);
+                _listOrderService.AddOrder(FullOrder, _userManager.GetUserAsync(User).Result.Id);
                 HttpContext.Session.Clear();
                 return RedirectToPage("Confirmed");
             }

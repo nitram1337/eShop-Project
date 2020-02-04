@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EshopContext))]
-    [Migration("20200204124642_Initial")]
-    partial class Initial
+    [Migration("20200204174338_dbsetAppUserAdd")]
+    partial class dbsetAppUserAdd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

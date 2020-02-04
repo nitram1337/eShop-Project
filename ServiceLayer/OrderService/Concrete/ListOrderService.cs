@@ -25,8 +25,9 @@ namespace ServiceLayer.OrderService.Concrete
             _context.Customers.Add(customer);
             _context.SaveChanges();
         }
-        public void AddOrder(OrderDto nyOrder)
+        public void AddOrder(OrderDto nyOrder, string UserId)
         {
+            var foundUser = _context.ApplicationUsers.Include(T => T.Orders).FirstOrDefault(T => T.Id == UserId);
             Customer customer = new Customer {
                 Name = nyOrder.Name,
                 Email = nyOrder.Email,
@@ -48,7 +49,7 @@ namespace ServiceLayer.OrderService.Concrete
             }
 
             //customer.Orders = new List<Order> { newOrder };
-           
+            foundUser.Orders.Add(newOrder);
             _context.Customers.Add(customer);
             _context.SaveChanges();
         }

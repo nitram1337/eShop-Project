@@ -9,6 +9,6 @@ namespace ServiceLayer.OrderService.Abstract
     public interface IListOrderService
     {
         void AddCustomer(string name, string email, string adress);
-        void AddOrder(OrderDto nyOrder);
+        void AddOrder(OrderDto nyOrder, string UserId);
     }
 }

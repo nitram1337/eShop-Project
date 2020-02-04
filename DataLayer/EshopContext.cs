@@ -25,6 +25,7 @@ namespace DataLayer
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
