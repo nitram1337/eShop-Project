@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebShop.Pages.Products
 {
-    [Authorize]
     public class IndexModel : PageModel
     {
         #region SESSION

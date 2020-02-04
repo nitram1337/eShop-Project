@@ -91,9 +91,11 @@ namespace WebShop.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser {
-                    
                     UserName = Input.Email,
-                    Email = Input.Email
+                    Email = Input.Email,
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
+                    Age = Input.Age
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
