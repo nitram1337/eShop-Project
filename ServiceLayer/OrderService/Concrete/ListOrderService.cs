@@ -53,5 +53,35 @@ namespace ServiceLayer.OrderService.Concrete
             _context.Customers.Add(customer);
             _context.SaveChanges();
         }
+        public ICollection<OrderListDto> GetOrdersForCustomerId(string customerId)
+        {
+            //var customerOrders = _context.Orders
+            //    .Where(c => c.CustomerId == customerId).ToList();
+            //return customerOrders;
+
+            var customerOrders = _context.Orders
+                .Include(c => c.Payment)
+                .Include(c => c.Delivery)
+                .Where(c => c.CustomerId == customerId)
+                .Select(o =>
+                new OrderListDto
+                {
+                    DatePlaced = o.DatePlaced,
+                    OrderId = o.OrderId,
+                    TotalPrice = o.TotalPrice,
+                    DeliveryMethod = o.Delivery.DeliveryOption,
+                    PaymentMethod = o.Payment.PaymentOption
+                }).ToList();
+            return customerOrders;
+
+            //return cars.Select(p => new ProductListDto
+            //{
+            //    Id = p.CarId,
+            //    BrandName = p.Brand.BrandName,
+            //    ModelName = p.ModelName,
+            //    PhotoPath = p.Photo.PhotoPath,
+            //    Price = p.Price
+            //});
+        }
     }
 }

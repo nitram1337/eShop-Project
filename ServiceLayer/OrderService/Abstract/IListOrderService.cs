@@ -10,5 +10,6 @@ namespace ServiceLayer.OrderService.Abstract
     {
         void AddCustomer(string name, string email, string adress);
         void AddOrder(OrderDto nyOrder, string UserId);
+        ICollection<OrderListDto> GetOrdersForCustomerId(string customerId);
     }
 }
