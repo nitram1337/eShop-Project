@@ -1,5 +1,10 @@
 ﻿@page
-@model WebShop.Areas.Identity.Pages.Account.Manage.OrdersModel
+@model OrdersModel
 @{
 }
-<h1>ddd</h1>
+<h1>All orders made</h1>
+
+@foreach (var order in Model.Orders)
+{
+    <p>@order.DatePlaced - @order.TotalPrice - @order.PaymentMethod </p>
+}

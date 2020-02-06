@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ServiceLayer.OrderService.Abstract;
+using ServiceLayer.OrderService.Dto;
 
 namespace WebShop.Areas.Identity.Pages.Account.Manage
 {
@@ -21,9 +22,13 @@ namespace WebShop.Areas.Identity.Pages.Account.Manage
             _userManager = userManager;
         }
 
+
+        public ICollection<OrderListDto> Orders { get; set; }
+
+
         public void OnGet()
         {
-           var hej = _listOrderService.GetOrdersForCustomerId(_userManager.GetUserAsync(User).Result.Id);
+            Orders = _listOrderService.GetOrdersForCustomerId(_userManager.GetUserAsync(User).Result.Id);
         }
     }
 }
