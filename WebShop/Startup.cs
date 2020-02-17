@@ -66,8 +66,9 @@ namespace WebShop
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager)
         {
+           
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -97,6 +98,29 @@ namespace WebShop
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
+            SeedUsers(userManager);
+        }
+
+        public static void SeedUsers(UserManager<ApplicationUser> userManager)
+        {
+            if (userManager.FindByEmailAsync("abc@xyz.com").Result == null)
+            {
+                ApplicationUser user = new ApplicationUser
+                {
+                    UserName = "hej@hej.dk",
+                    FirstName = "hej@hej.dk",
+                    LastName = "hej@hej.dk",
+                    Email = "hej@hej.dk"
+                };
+
+                IdentityResult result = userManager.CreateAsync(user, "P@ssw0rd").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "Admin").Wait();
+                    userManager.GenerateEmailConfirmationTokenAsync(user);
+                }
+            }
         }
     }
 }

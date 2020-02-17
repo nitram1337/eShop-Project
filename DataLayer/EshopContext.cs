@@ -41,9 +41,9 @@ namespace DataLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);     // Identity
 
-            modelBuilder.Entity<Order>()
+            modelBuilder.Entity<Order>()            // Identity
             .HasOne(p => p.ApplicationUser)
             .WithMany(b => b.Orders)
             .HasForeignKey(p => p.CustomerId);
@@ -121,20 +121,27 @@ namespace DataLayer
                 new Delivery() { DeliveryId = 1, DeliveryOption = "PostNord - Pakkeshop"},
                 new Delivery() { DeliveryId = 2, DeliveryOption = "GLS - Til døren"}
                 );
-    //        modelBuilder.Entity<Order>().HasData(
-    //            new Order() { OrderId = 1, DatePlaced = DateTime.Now, TotalPrice = 2920000, CustomerId = "dd", PaymentId = 2, DeliveryId = 1},
-    //            new Order() { OrderId = 2, DatePlaced = DateTime.Now, TotalPrice = 1364000, CustomerId = "ddf", PaymentId = 3, DeliveryId = 2}
-    //            );
-    //        modelBuilder.Entity<ApplicationUser>().HasData(
-    //new ApplicationUser() {  },
-    //new Order() { OrderId = 2, DatePlaced = DateTime.Now, TotalPrice = 1364000, CustomerId = "ddf", PaymentId = 3, DeliveryId = 2 }
-    //);
-    //        modelBuilder.Entity<OrderCar>().HasData(
-    //            new OrderCar() { OrderId = 1, CarId = 1, Amount = 1 },
-    //            new OrderCar() { OrderId = 2, CarId = 2, Amount = 1 },
-    //            new OrderCar() { OrderId = 1, CarId = 4, Amount = 1 },
-    //            new OrderCar() { OrderId = 2, CarId = 5, Amount = 1 }
-    //            );
+
+            modelBuilder.Entity<IdentityRole>().HasData(                                        // Identity
+                new IdentityRole { Name = "Admin", NormalizedName = "Admin".ToUpper() },
+                new IdentityRole { Name = "Developer", NormalizedName = "Developer".ToUpper()},
+                new IdentityRole { Name = "User", NormalizedName = "User".ToUpper() }
+                );
+
+            //        modelBuilder.Entity<Order>().HasData(
+            //            new Order() { OrderId = 1, DatePlaced = DateTime.Now, TotalPrice = 2920000, CustomerId = "dd", PaymentId = 2, DeliveryId = 1},
+            //            new Order() { OrderId = 2, DatePlaced = DateTime.Now, TotalPrice = 1364000, CustomerId = "ddf", PaymentId = 3, DeliveryId = 2}
+            //            );
+            //        modelBuilder.Entity<ApplicationUser>().HasData(
+            //new ApplicationUser() {  },
+            //new Order() { OrderId = 2, DatePlaced = DateTime.Now, TotalPrice = 1364000, CustomerId = "ddf", PaymentId = 3, DeliveryId = 2 }
+            //);
+            //        modelBuilder.Entity<OrderCar>().HasData(
+            //            new OrderCar() { OrderId = 1, CarId = 1, Amount = 1 },
+            //            new OrderCar() { OrderId = 2, CarId = 2, Amount = 1 },
+            //            new OrderCar() { OrderId = 1, CarId = 4, Amount = 1 },
+            //            new OrderCar() { OrderId = 2, CarId = 5, Amount = 1 }
+            //            );
         }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Ini : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -309,6 +309,16 @@ namespace DataLayer.Migrations
                         principalTable: "Orders",
                         principalColumn: "OrderId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "35377b22-de43-4bb8-b59e-f44befbd9244", "b23b54a2-9e32-4060-8707-261c3a274b34", "Admin", "ADMIN" },
+                    { "a1cab0ec-2047-49b0-995f-552de47847db", "50fea97f-931b-423b-b357-664f9b1dd30d", "Developer", "DEVELOPER" },
+                    { "9fb3ffad-1279-421d-84cd-52150ebfb120", "ea7b3999-407f-42fb-b646-b3c105bdcfa1", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(

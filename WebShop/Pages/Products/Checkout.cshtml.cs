@@ -19,7 +19,7 @@ using WebShop.Helper;
 
 namespace WebShop.Pages.Products
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class CheckoutModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
